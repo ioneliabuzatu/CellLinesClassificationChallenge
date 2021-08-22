@@ -1,0 +1,2 @@
+tensorboard
+git+https://github.com/ministry-of-silly-code/experiment_buddy.git@main#egg=experiment_buddy

@@ -8,7 +8,7 @@ Hint: Combining the separate images to one 3-channel-image allows to treat a sam
 
 
 Example of staining different parts of a cell:
-![Stained](assets/stained_cell_line_parts.png)
+![Stained](assets/example_cell_channels.png)
 
 #### Report:
 • Max. 1 page report in PDF format
