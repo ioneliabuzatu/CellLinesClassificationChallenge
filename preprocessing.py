@@ -20,8 +20,10 @@ class CellLinesMicroscopyData(object):
         self.dir_train_images_rgb = config.dir_train_images_rgb
         self.dir_test_images_rgb = config.dir_test_images_rgb
 
-        assert os.path.exists(self.dir_train_images_rgb)
-        assert os.path.exists(self.dir_test_images_rgb)
+        if not os.path.exists(self.dir_train_images_rgb):
+            os.makedirs(self.dir_train_images_rgb)
+        if not os.path.exists(self.dir_test_images_rgb):
+            os.makedirs(self.dir_test_images_rgb)
 
     def visualize_img(self, img_idx: int = 1):
         grid = plt.GridSpec(2, 2, wspace=0.2, hspace=0.2)
