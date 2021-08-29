@@ -40,7 +40,7 @@ which_resnet = "resnet50"
 # paths
 if LOCAL:
     root_all_data = "/home/ionelia/pycharm-projects/master/semester2/lifescience/summer/data/celllinesproject"
-    save_model_file_path = os.path.join(root_all_data, "cell_lines_model.pth")
+    save_model_file_path = f"./models/checkpoints/cell_lines_{which_resnet}_model.pth"
     dir_train_images_separate_channels = os.path.join(root_all_data, "images_train")
     dir_test_images_separate_channels = os.path.join(root_all_data, "images_test")
     dir_train_images_rgb = os.path.join(root_all_data, "rgb-train-images")
