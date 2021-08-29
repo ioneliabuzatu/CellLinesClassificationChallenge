@@ -25,8 +25,8 @@ torchvision_models = {
 }
 
 # weather to use buddy or not and run local or cluster
-USE_BUDDY = False
-LOCAL = True
+USE_BUDDY = True
+LOCAL = False
 
 # hyper-parameters
 seed = 1234
