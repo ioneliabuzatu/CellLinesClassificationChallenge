@@ -37,7 +37,7 @@ lr = 0.0002
 weight_decay = 0.0005
 betas = (0.99, 0.95)
 epochs = 200
-which_model = "resnet50"
+which_model = "vgg19"
 
 # paths
 if LOCAL:
@@ -60,8 +60,8 @@ if USE_BUDDY:
     experiment_buddy.register_defaults(locals())
     tensorboard = experiment_buddy.deploy(
         "mila",
-        sweep_yaml="sweep.yaml",
-        proc_num=30,
+        sweep_yaml="",
+        proc_num=1,
         wandb_kwargs={"project": "celllinesclassifier"},
     )
 else:
