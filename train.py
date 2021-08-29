@@ -1,9 +1,9 @@
 import warnings
-import torch.optim as optim
 
 import numpy as np
 import torch
 import torch.nn as nn
+import torch.optim as optim
 import torch_constrained
 from torch.utils.data import DataLoader
 
