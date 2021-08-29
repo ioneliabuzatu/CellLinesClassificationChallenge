@@ -64,7 +64,7 @@ decode = {v: k for k, v in encode.items()}
 if USE_BUDDY:
     experiment_buddy.register_defaults(locals())
     tensorboard = experiment_buddy.deploy(
-        "",
+        "mila",
         sweep_yaml="",
         proc_num=1,
         wandb_kwargs={"project": "celllinesclassifier"},

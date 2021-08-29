@@ -12,7 +12,7 @@ from torch.utils.data import DataLoader
 from torchvision import models
 
 import config
-from datasets import predict_dataloader, transform_test
+from datasets import InferenceDataset, transform_test
 
 
 def predict(testloader: DataLoader, model: torchvision.models, device: torch.device,
@@ -41,14 +41,14 @@ if __name__ == "__main__":
         assert os.path.exists(img_filepath)
         b.append(cv2.imread(img_filepath))
     c = np.arange(9633, 16502)
-    test_set = predict_dataloader(inputs=b, img_ids=c, transform=transform_test)
+    test_set = InferenceDataset(inputs=b, img_ids=c, transform=transform_test)
     test_loader = DataLoader(test_set, **{"batch_size": 64, "shuffle": False, "num_workers": 20})
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = models.resnet50(pretrained=True)
     n_inputs = model.fc.in_features
     classifier = nn.Linear(n_inputs, 9)
     model.fc = classifier
-    model.load_state_dict(torch.load("cell_lines.ckpt"))
+    model.load_state_dict(torch.load("models/checkpoints/cell_lines_resnet50.ckpt"))
     model.to(device)
     predictions = predict(testloader=test_loader, model=model, device=device, decode=decode)
     predictions.to_csv('server_predictions.csv', index=False)
