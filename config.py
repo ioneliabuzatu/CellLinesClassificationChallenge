@@ -34,7 +34,7 @@ LOCAL = False
 USE_TORCH_CONSTRAINED = False
 
 # parameters
-which_model = "resnet50"
+which_model = "resnet101"
 seed = 1234
 batch_size = 64
 lr = 0.0002
@@ -66,6 +66,9 @@ if USE_BUDDY:
         sweep_yaml="",
         proc_num=1,
         wandb_kwargs={"project": "celllinesclassifier"},
+        extra_slurm_headers="""
+            #SBATCH --gres=gpu:rtx8000:1
+            """,
     )
 else:
     tensorboard = SummaryWriter()

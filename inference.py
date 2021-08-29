@@ -47,7 +47,7 @@ if __name__ == "__main__":
     n_inputs = model.fc.in_features
     classifier = nn.Linear(n_inputs, 9)
     model.fc = classifier
-    model.load_state_dict(torch.load("models/checkpoints/cell_lines_resnet50.ckpt"))
+    model.load_state_dict(torch.load("models/checkpoints/cell_lines_resnet50_cluster_200epochs.pth"))
     model.to(device)
     predictions = predict(testloader=test_loader, model=model, device=device, decode=decode)
     predictions.to_csv('server_predictions.csv', index=False)
