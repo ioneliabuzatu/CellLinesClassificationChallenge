@@ -1,0 +1,9 @@
+method: random
+metric:
+  goal: maximize
+  name: Accuracy/val
+parameters:
+  ^which_model:
+    distribution: categorical
+    values: ['alexnet', 'vgg19', 'vgg19batchnorm', 'resnet18', 'resnet34', 'resnet50', 'resnet101', 'resnet152', 'squeezenet11', 'densenet161', 'inception', 'googlenet', 'shufflenet', 'mobilenet_v2', 'mobilenet_v3_large', 'mobilenet_v3_small', 'resnext50_32x4d', 'wide_resnet50_2', 'mnasnet']
+program: train.py
