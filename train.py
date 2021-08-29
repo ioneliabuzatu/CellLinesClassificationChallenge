@@ -22,6 +22,7 @@ if __name__ == "__main__":
 
     cell_lines_data = preprocessing.CellLinesMicroscopyData()
     train_with_labels = cell_lines_data.train_data_with_labels()
+    print("DEBUG:", train_with_labels)
     X = train_with_labels[:, 1]
     y = train_with_labels[:, 2]
     train_indices, test_indices = preprocessing.CellLinesMicroscopyData().train_and_validation_indices(X, y)
