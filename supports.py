@@ -1,5 +1,3 @@
-from time import time
-
 import numpy as np
 import torch
 import torch.nn as nn
@@ -24,11 +22,23 @@ def train(train_dataloader: DataLoader,
     for i, (inputs, labels) in enumerate(train_dataloader, 1):
         inputs, labels = inputs.to(device), labels.to(device)
         inputs, labels = inputs.to(device), labels.to(device)
-        optimizer.zero_grad()
+
+        def closure():
+            output = model.forward(inputs)
+            loss = criterion(output, labels)
+            layer_norm = torch.mean(torch.tensor([p.norm() for p in model.parameters()]))
+            ineq_defect = [(layer_norm - 0.025).reshape(1, -1),]
+            return loss, None, ineq_defect
+
+        optimizer.step(closure)
+        # optimizer.zero_grad()
+        # output = model.forward(inputs)
+        # loss = criterion(output, labels)
+        # loss.backward()
+        # optimizer.step()
         output = model.forward(inputs)
-        loss = criterion(output, labels)
-        loss.backward()
-        optimizer.step()
+        loss, _, eq_defect = closure()
+
         train_loss.append(loss.item())
         for j, val in enumerate(output):
             true.append(labels[j].item())
