@@ -27,18 +27,22 @@ transform_test = transforms.Compose([
 ])
 
 
-class train_dataloader(Dataset):
-    def __init__(self, df, label_encoding: Dict[str, Optional[Any]], transform: transforms.Compose):
-        self.df = df
+class TrainDataset(Dataset):
+    def __init__(self,
+                 dataset: np.ndarray,
+                 label_encoding: Dict[str, Optional[Any]],
+                 transform: transforms.Compose
+                 ):
+        self.dataset = dataset
         self.label_encoding = label_encoding
         self.transform = transform
 
     def __len__(self):
-        return len(self.df)
+        return len(self.dataset)
 
     def __getitem__(self, idx):
-        img = self.df.iloc[idx, 0]
-        label = self.label_encoding[self.df.iloc[idx, 1]]
+        img = self.dataset[idx, 0]
+        label = self.label_encoding[self.dataset[idx, 1]]
 
         img = Image.fromarray(img)
         if self.transform:
@@ -47,7 +51,7 @@ class train_dataloader(Dataset):
         return img, label
 
 
-class test_dataloader(Dataset):
+class TestDataloader(Dataset):
     def __init__(self, img_dir: str, transform: transforms.Compose):
         self.img_dir = img_dir
         self.images = [file for file in os.listdir(img_dir)]
@@ -67,7 +71,7 @@ class test_dataloader(Dataset):
         return img, img_id
 
 
-class predict_dataloader(Dataset):
+class InferenceDataset(Dataset):
     def __init__(self, inputs, img_ids, transform: transforms.Compose):
         self.inputs = inputs
         self.img_ids = img_ids

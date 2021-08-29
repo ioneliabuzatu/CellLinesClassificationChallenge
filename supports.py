@@ -8,18 +8,20 @@ from sklearn.metrics import balanced_accuracy_score
 from torch.utils.data import DataLoader
 
 
-def train(trainloader: DataLoader,
+def train(train_dataloader: DataLoader,
           model: torchvision.models,
           device,
           criterion: nn.CrossEntropyLoss,
           optimizer,
-          verbose=20):
+          epoch: int,
+          verbose: int = 30,
+          ):
     model.train()
     true = []
     pred = []
     train_loss = []
-    start = time()
-    for i, (inputs, labels) in enumerate(trainloader, 1):
+    len_train_dataloader = len(train_dataloader)
+    for i, (inputs, labels) in enumerate(train_dataloader, 1):
         inputs, labels = inputs.to(device), labels.to(device)
         inputs, labels = inputs.to(device), labels.to(device)
         optimizer.zero_grad()
@@ -32,23 +34,25 @@ def train(trainloader: DataLoader,
             true.append(labels[j].item())
             pred.append(torch.argmax(val).item())
         if i % verbose == 0:
-            print(f"Batch {i} of {len(trainloader)} | Train Loss: {np.mean(train_loss):.3f}")
+            print(f"Epoch {epoch} | Batch {i} of {len_train_dataloader} | Train Loss: {np.mean(train_loss):.3f}")
     balanced_acc = balanced_accuracy_score(true, pred)
     return np.mean(train_loss), balanced_acc
 
 
-def validate(valloader: DataLoader,
+def validate(val_dataloader: DataLoader,
              model: torchvision.models,
              device: torch.device,
              criterion: torch.optim,
-             verbose: int):
+             epoch: int,
+             verbose: int = 30,
+             ):
     model.eval()
     true = []
     pred = []
     val_loss = []
-    start = time()
+    len_val_dataloader = len(val_dataloader)
     with torch.no_grad():
-        for i, (inputs, labels) in enumerate(valloader, 1):
+        for i, (inputs, labels) in enumerate(val_dataloader, 1):
             inputs, labels = inputs.to(device), labels.to(device)
             output = model.forward(inputs)
             loss = criterion(output, labels)
@@ -58,6 +62,6 @@ def validate(valloader: DataLoader,
                 pred.append(torch.argmax(val).item())
 
             if i % verbose == 0:
-                print(f"Batch {i} of {len(valloader)} | Val Loss: {np.mean(val_loss):.3f}")
+                print(f"Epoch {epoch} | Batch {i} of {len_val_dataloader} | Val Loss: {np.mean(val_loss):.3f}")
     balanced_acc = balanced_accuracy_score(true, pred)
     return np.mean(val_loss), balanced_acc
