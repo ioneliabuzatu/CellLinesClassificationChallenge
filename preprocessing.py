@@ -121,4 +121,6 @@ class CellLinesMicroscopyData(object):
 
 if __name__ == "__main__":
     cell_lines_preprocessing = CellLinesMicroscopyData()
+    cell_lines_preprocessing.save_rgb_images_train()
+    cell_lines_preprocessing.save_rgb_images_test()
     cell_lines_preprocessing.visualize_img(img_idx=60)
