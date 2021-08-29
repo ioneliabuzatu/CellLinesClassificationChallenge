@@ -89,11 +89,12 @@ class CellLinesMicroscopyData(object):
         imgs = []
         for img_idx in self.range_train_imgs:
             filepath = os.path.join(self.root_all_data, "rgb-train-images", f"{img_idx}.png")
+            assert os.path.exists(filepath), print("img path does not exists!")
             img = cv2.imread(filepath)
-            print(img)
             imgs.append(img)
-        y_train = pd.read_csv(os.path.join(f"{self.root_all_data}", "y_train.csv"))
+        y_train = pd.read_csv(os.path.join(f"{self.root_all_data}", "y_train.csv"), index_col=False)
         y_train.insert(1, "Images", imgs, True)
+        y_train = y_train[["Images", "cell_line"]].to_numpy(dtype=object)
         with open(config.train_with_labels, "wb") as f:
             np.save(f, y_train)
         return y_train

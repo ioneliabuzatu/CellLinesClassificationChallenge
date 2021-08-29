@@ -22,9 +22,8 @@ if __name__ == "__main__":
 
     cell_lines_data = preprocessing.CellLinesMicroscopyData()
     train_with_labels = cell_lines_data.train_data_with_labels()
-    print("DEBUG:", train_with_labels)
-    X = train_with_labels[:, 1]
-    y = train_with_labels[:, 2]
+    X = train_with_labels[:, 0]
+    y = train_with_labels[:, 1]
     train_indices, test_indices = preprocessing.CellLinesMicroscopyData().train_and_validation_indices(X, y)
     X_train, X_test = X[train_indices], X[test_indices]
     y_train, y_test = y[train_indices], y[test_indices]
@@ -44,7 +43,7 @@ if __name__ == "__main__":
     model.to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=config.lr, weight_decay=config.weight_decay, betas=config.betas)
-    val_loss, val_acc = validate(val_dataloader=val_loader, model=model, device=device, criterion=criterion)
+    val_loss, val_acc = validate(val_dataloader=val_loader, model=model, device=device, criterion=criterion, epoch=0)
     writer.add_scalar('Loss/val', val_loss, 0)
     writer.add_scalar('Accuracy/val', val_acc, 0)
     save_model_according_to_loss = 100
