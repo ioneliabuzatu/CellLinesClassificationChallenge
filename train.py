@@ -1,4 +1,5 @@
 import warnings
+from models import initialize_model
 
 import numpy as np
 import torch
@@ -36,9 +37,7 @@ if __name__ == "__main__":
     val_loader = DataLoader(val_set, batch_size=config.batch_size, shuffle=False, num_workers=20)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = config.torchvision_models[config.which_model](pretrained=True)
-    classifier = nn.Linear(model.fc.in_features, 9)
-    model.fc = classifier
+    model, input_size_model = initialize_model(config.which_model)
     # model.load_state_dict(torch.load("./cell_lines.ckpt"))
     model.to(device)
     criterion = nn.CrossEntropyLoss()
