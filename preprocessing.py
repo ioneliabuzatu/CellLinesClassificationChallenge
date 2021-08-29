@@ -73,7 +73,7 @@ class CellLinesMicroscopyData(object):
 
     @staticmethod
     def create_rgb(blue_channel_img, red_channel_img, yellow_channel_img):
-        print("Remember blue channel shape:", blue_channel_img.shape)
+        print("Create a new RGB image:", blue_channel_img.shape)
         rgb_img = np.zeros((blue_channel_img.shape[0], blue_channel_img.shape[1], 3))
         rgb_img[:, :, 0] = blue_channel_img
         rgb_img[:, :, 1] = red_channel_img
