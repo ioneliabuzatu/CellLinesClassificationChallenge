@@ -26,7 +26,7 @@ torchvision_models = {
 
 # weather to use buddy or not and run local or cluster
 USE_BUDDY = True
-LOCAL = True
+LOCAL = False
 
 # hyper-parameters
 seed = 1234
@@ -34,28 +34,22 @@ batch_size = 64
 lr = 0.0002
 weight_decay = 0.0005
 betas = (0.99, 0.95)
-epochs = 25
+epochs = 200
 which_resnet = "resnet50"
 
 # paths
 if LOCAL:
     root_all_data = "/home/ionelia/pycharm-projects/master/semester2/lifescience/summer/data/celllinesproject"
-    save_model_file_path = f"./models/checkpoints/cell_lines_{which_resnet}_model.pth"
-    dir_train_images_separate_channels = os.path.join(root_all_data, "images_train")
-    dir_test_images_separate_channels = os.path.join(root_all_data, "images_test")
-    dir_train_images_rgb = os.path.join(root_all_data, "rgb-train-images")
-    dir_test_images_rgb = os.path.join(root_all_data, "rgb-test-images")
-    train_with_labels = "train_images_with_labels.npy"
-    train_and_test_indices = "train_and_test_indices.json"
 else:
     root_all_data = "/home/mila/g/golemofl/data/cell"
-    save_model_file_path = os.path.join(root_all_data, "cell_lines_model.pth")
-    dir_train_images_separate_channels = os.path.join(root_all_data, "images_train")
-    dir_test_images_separate_channels = os.path.join(root_all_data, "images_test")
-    dir_train_images_rgb = os.path.join(root_all_data, "rgb-train-images")
-    dir_test_images_rgb = os.path.join(root_all_data, "rgb-test-images")
-    train_with_labels = "train_images_with_labels.npy"
-    train_and_test_indices = "train_and_test_indices.json"
+
+save_model_file_path = os.path.join(root_all_data, "cell_lines_model.pth")
+dir_train_images_separate_channels = os.path.join(root_all_data, "images_train")
+dir_test_images_separate_channels = os.path.join(root_all_data, "images_test")
+dir_train_images_rgb = os.path.join(root_all_data, "rgb-train-images")
+dir_test_images_rgb = os.path.join(root_all_data, "rgb-test-images")
+train_with_labels = os.path.join(root_all_data,"train_images_with_labels.npy")
+train_and_test_indices = os.path.join(root_all_data, "train_and_test_indices.json")
 
 encode = {'A549': 0, 'CACO-2': 1, 'HEK 293': 2, 'HeLa': 3, 'MCF7': 4, 'PC-3': 5, 'RT4': 6, 'U-2 OS': 7, 'U-251 MG': 8}
 decode = {v: k for k, v in encode.items()}
@@ -64,7 +58,7 @@ decode = {v: k for k, v in encode.items()}
 if USE_BUDDY:
     experiment_buddy.register_defaults(locals())
     tensorboard = experiment_buddy.deploy(
-        "",
+        "mila",
         sweep_yaml="",
         proc_num=1,
         wandb_kwargs={"project": "celllinesclassifier"},
