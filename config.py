@@ -21,17 +21,18 @@ torchvision_models = {
     "mobilenet_v2": models.mobilenet_v2,
     "mobilenet_v3_large": models.mobilenet_v3_large,
     "mobilenet_v3_small": models.mobilenet_v3_small,
-    "resnext50_32x4d": models.resnext50_32x4d,
-    "wide_resnet50_2": models.wide_resnet50_2,
+    "resnetX50_32x4d": models.resnext50_32x4d,
+    "resnetX101_32x8d": models.resnext101_32x8d,
+    "resnet_wide_50_2": models.wide_resnet50_2,
     "mnasnet": models.mnasnet1_0,
 }
 
 # weather to use buddy or not and run local or cluster
-USE_BUDDY = False
-LOCAL = True
+USE_BUDDY = True
+LOCAL = False
 
 # parameters
-which_model = "vgg19"
+which_model = "resnetX101_32x8d"
 seed = 1234
 batch_size = 64
 lr = 0.0002
