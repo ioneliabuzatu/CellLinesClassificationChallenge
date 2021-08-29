@@ -134,3 +134,4 @@ wandb/
 runs/
 *.npy
 server_predictions.csv
+*pth
