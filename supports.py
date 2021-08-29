@@ -24,20 +24,21 @@ def train(train_dataloader: DataLoader,
         inputs, labels = inputs.to(device), labels.to(device)
 
         def closure():
+            # https://gist.github.com/manuel-delverme/8c8719b55ecf6c0b7f8dd932976ec4b9
             output = model.forward(inputs)
             loss = criterion(output, labels)
             layer_norm = torch.mean(torch.tensor([p.norm() for p in model.parameters()]))
             ineq_defect = [(layer_norm - 0.025).reshape(1, -1),]
             return loss, None, ineq_defect
 
-        optimizer.step(closure)
-        # optimizer.zero_grad()
-        # output = model.forward(inputs)
-        # loss = criterion(output, labels)
-        # loss.backward()
-        # optimizer.step()
+        # optimizer.step(closure)
+        optimizer.zero_grad()
         output = model.forward(inputs)
-        loss, _, eq_defect = closure()
+        loss = criterion(output, labels)
+        loss.backward()
+        optimizer.step()
+        # output = model.forward(inputs)
+        # loss, _, eq_defect = closure()
 
         train_loss.append(loss.item())
         for j, val in enumerate(output):

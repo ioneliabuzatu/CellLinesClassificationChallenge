@@ -31,6 +31,8 @@ torchvision_models = {
 USE_BUDDY = True
 LOCAL = False
 
+USE_TORCH_CONSTRAINED = False
+
 # parameters
 which_model = "resnet50"
 seed = 1234

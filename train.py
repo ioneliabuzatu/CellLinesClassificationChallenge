@@ -1,4 +1,5 @@
 import warnings
+import torch.optim as optim
 
 import numpy as np
 import torch
@@ -40,15 +41,18 @@ if __name__ == "__main__":
     model, input_size_model = initialize_model(config.which_model)
     model.to(device)
     criterion = nn.CrossEntropyLoss()
-    # optimizer = optim.Adam(model.parameters(), lr=config.lr, weight_decay=config.weight_decay, betas=config.betas)
-    constrained_optimizer = torch_constrained.ConstrainedOptimizer(
-        torch_constrained.ExtraAdagrad,
-        torch_constrained.ExtraSGD,
-        lr_x=config.lr * 1e-3,
-        lr_y=config.lr * 1e-4,
-        primal_parameters=list(model.parameters()),
-    )
-    
+
+    if config.USE_TORCH_CONSTRAINED:
+        optimizer = torch_constrained.ConstrainedOptimizer(
+            torch_constrained.ExtraAdagrad,
+            torch_constrained.ExtraSGD,
+            lr_x=config.lr * 1e-3,
+            lr_y=config.lr * 1e-4,
+            primal_parameters=list(model.parameters()),
+        )
+    else:
+        optimizer = optim.Adam(model.parameters(), lr=config.lr, weight_decay=config.weight_decay, betas=config.betas)
+
     val_loss, val_acc = validate(val_dataloader=val_loader, model=model, device=device, criterion=criterion, epoch=0)
     writer.add_scalar('Loss/val', val_loss, 0)
     writer.add_scalar('Accuracy/val', val_acc, 0)
@@ -59,7 +63,7 @@ if __name__ == "__main__":
             model=model,
             device=device,
             criterion=criterion,
-            optimizer=constrained_optimizer,
+            optimizer=optimizer,
             epoch=epoch
         )
         writer.add_scalar('Loss/train', train_loss, epoch)
