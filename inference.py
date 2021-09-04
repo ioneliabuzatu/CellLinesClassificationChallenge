@@ -1,5 +1,4 @@
 import os
-from time import time
 from typing import Dict
 
 import cv2
@@ -11,7 +10,7 @@ import torchvision
 from torch.utils.data import DataLoader
 from torchvision import models
 
-from datasets import InferenceDataset, transform_test
+from src.datasets import InferenceDataset, transform_test
 
 
 def predict(testloader: DataLoader, model: torchvision.models, device: torch.device,
@@ -31,8 +30,9 @@ def predict(testloader: DataLoader, model: torchvision.models, device: torch.dev
 
 if __name__ == "__main__":
     root_all_data = "../data/celllinesproject"
-    encode = {'A549': 0, 'CACO-2': 1, 'HEK 293': 2, 'HeLa': 3, 'MCF7': 4, 'PC-3': 5, 'RT4': 6, 'U-2 OS': 7,
-              'U-251 MG': 8}
+    encode = {
+        'A549': 0, 'CACO-2': 1, 'HEK 293': 2, 'HeLa': 3, 'MCF7': 4, 'PC-3': 5, 'RT4': 6, 'U-2 OS': 7, 'U-251 MG': 8
+    }
     decode = {v: k for k, v in encode.items()}
     b = []
     for img_idx in range(9633, 16502):
@@ -47,7 +47,7 @@ if __name__ == "__main__":
     n_inputs = model.fc.in_features
     classifier = nn.Linear(n_inputs, 9)
     model.fc = classifier
-    model.load_state_dict(torch.load("models/checkpoints/cell_lines_resnet50_cluster_200epochs.pth"))
+    model.load_state_dict(torch.load("models/checkpoints/cell_lines_resnet34_cluster_200epochs.pth"))
     model.to(device)
     predictions = predict(testloader=test_loader, model=model, device=device, decode=decode)
-    predictions.to_csv('server_predictions.csv', index=False)
+    predictions.to_csv("server_predictions.csv", index=False)

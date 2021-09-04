@@ -9,9 +9,9 @@ from torch.utils.data import DataLoader
 
 import config
 import preprocessing
-from datasets import TrainDataset, transform_train, transform_test
+from src.datasets import TrainDataset, transform_train, transform_test
 from models import initialize_model
-from supports import validate, train
+from src.supports import validate, train
 
 warnings.filterwarnings("ignore")
 

@@ -34,7 +34,7 @@ LOCAL = False
 USE_TORCH_CONSTRAINED = False
 
 # parameters
-which_model = "resnet101"
+which_model = "resnet34"
 seed = 1234
 batch_size = 64
 lr = 0.0002
