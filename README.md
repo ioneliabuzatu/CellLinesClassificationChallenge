@@ -21,6 +21,19 @@ final approach, post-processing,…
 fundamental code sources (for plagiarism reasons)
 
 
+|Model | Accuracies (validation)|
+|:---:|:---:|
+|AlexNet| 90%
+|VGG19| 92%
+|VGG19 (bn) | 95% 
+|Resnet18| 92%
+Resnet34| **96%**
+|Resnet50 | **96%**
+|ResnetWide50| **96%**
+|Resnet101| **96%**
+|Resnet152| 95%
+
+
 Files contained: 
 - `images_train.tar`: Training set (#28896 images) containing three 64x64 pixel grayscale images per sample in png format. Each sample has a unique ID.
 The three images per sample represent nucleus ("_blue.png"), microtubules ("_red.png") and endoplasmic reticulum ("_yellow.png").
