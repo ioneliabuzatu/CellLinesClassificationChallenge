@@ -6,7 +6,7 @@ Each cell consists of 3 seperate images showing different parts (nucleus, microt
 endoplasmic reticulum) of the same cell.
 
 Example of staining different parts of a cell where the rgb image is the result of the 3 seprate channels combined 
-together:
+together: \
 ![Stained](assets/example_cell_channels.png)
 
 ## Usage of this repo
