@@ -1,4 +1,5 @@
-### Cell Lines Classifier
+### Cell Lines Classifier 
+##### Challenge at JKU - AI in Life Science S2021
 
 Classification of 9 unknown cell lines given microscopy images. The classes to distinguish are:
 `PC-3, U-251 MG, HeLa, A549, U-2 OS, MCF7, HEK 293, CACO-2 and RT4`.

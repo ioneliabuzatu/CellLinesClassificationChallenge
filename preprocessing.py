@@ -46,26 +46,22 @@ class CellLinesMicroscopyData(object):
         plt.title("RGB")
         plt.show()
 
-    def save_rgb_images_train(self):
+    def save_rgb_images(self, save_train_set=True):
+        if save_train_set:
+            dir_channels, dir_rgb_images = self.dir_train_images_channels, self.dir_train_images_rgb
+        else:
+            dir_channels, dir_rgb_images = self.dir_test_images_channels, self.dir_test_images_rgb
         for img_idx in self.range_train_imgs:
-            blue, red, yellow = self.read_channels(self.dir_train_images_channels, img_idx)
+            blue, red, yellow = self.read_channels(dir_channels, img_idx)
             rgb_img = self.create_rgb(blue, red, yellow)
-            cv2.imwrite(os.path.join(self.dir_train_images_rgb, f"{img_idx}.png"), rgb_img)
-
-    def save_rgb_images_test(self):
-        for img_idx in self.range_test_imgs:
-            blue, red, yellow = self.read_channels(self.dir_test_images_channels, img_idx)
-            rgb_img = self.create_rgb(blue, red, yellow)
-            cv2.imwrite(os.path.join(self.dir_test_images_rgb, f"{img_idx}.png"), rgb_img)
+            cv2.imwrite(os.path.join(dir_rgb_images, f"{img_idx}.png"), rgb_img)
 
     @staticmethod
     def read_channels(root, img_idx):
         filepath_blue_channel = os.path.join(root, f"{img_idx}_blue.png")
         filepath_red_channel = os.path.join(root, f"{img_idx}_red.png")
         filepath_yellow_channel = os.path.join(root, f"{img_idx}_yellow.png")
-
         assert all([os.path.exists(c) for c in (filepath_blue_channel, filepath_red_channel, filepath_yellow_channel)])
-
         blue = cv2.imread(filepath_blue_channel, 0)
         red = cv2.imread(filepath_red_channel, 0)
         yellow = cv2.imread(filepath_yellow_channel, 0)
@@ -124,6 +120,6 @@ class CellLinesMicroscopyData(object):
 
 if __name__ == "__main__":
     cell_lines_preprocessing = CellLinesMicroscopyData()
-    cell_lines_preprocessing.save_rgb_images_train()
-    cell_lines_preprocessing.save_rgb_images_test()
+    cell_lines_preprocessing.save_rgb_images(save_train_set=True)
+    cell_lines_preprocessing.save_rgb_images(save_train_set=False)
     cell_lines_preprocessing.visualize_img(img_idx=60)
